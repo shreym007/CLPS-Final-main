@@ -42,10 +42,10 @@ disp(board);
                     disp('Invalid move. Please try again.');
                 end
             end
-
+            computer_move = gen_comp(board)
         else
             % Computer's turn
-            move = computer_move(board);
+            move = generate_computer_move(board);
             disp(['Computer moves: ', num2str(move)]);
         end
         board = make_move(board, move);
