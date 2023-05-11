@@ -5,13 +5,12 @@
 % The code here will not run but rather serves to separate our various
 % functions for easier understanding and code documentation!
 
-prompt = " ";
-function player_move = player_move()
+function player_move = user_move()
 
     prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
     move_str = input(prompt, 's');
 
-    move_array_cells = strssplit(move_str, ' ');
+    move_array_cells = strsplit(move_str, ' ');
     player_move = zeros(1, 4);
     for i = 1:4
         player_move(i) = str2double(move_array_cells{i});
