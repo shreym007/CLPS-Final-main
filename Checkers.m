@@ -1,176 +1,49 @@
 function Checkers()
     % Initialize the game board
-    board = zeros(8, 8);
-    board(1:3:8, 2:2:8) = 1;
-    board(2:2:8, 1:3:8) = -1;
+    board = zeros(8, 8); % create an 8x8 matrix filled with zeros
+
+% set up the black pieces in the top three rows
+for row = 1:3
+    for col = mod(row, 2)+1:2:8
+        board(row, col) = 1;
+    end
+end
+
+% set up the white pieces in the bottom three rows
+for row = 6:8
+    for col = mod(row, 2)+1:2:8
+        board(row, col) = -1;
+    end
+end
+
+disp(board);
 
     % Initialize the game state
     player = 1;
     game_over = false;
 
     % Play the game
-    while game_over ~= true
+    while ~game_over
         % Display the board
         disp(board);
 
-        %Enter Move Validity Code
-        prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
-        move_str = input(prompt, 's');
-
-        move_array_cells = strsplit(move_str, ' ');
-        player_move = zeros(1, 4);
-        for i = 1:4
-            player_move(i) = str2double(move_array_cells(i));
-        end
-    end
-
         % Make the player's move
         if player == 1
-            start_r = player_move(1);
-            start_c = player_move(2);
-            end_r = player_move(3);
-            end_c = player_move(4);
-            
-            check_valid = True;
-            % Make sure the move is within the 8x8 array 
-
-            if any([start_r, start_c, end_r, end_c] > 8) || any([start_r, start_c, end_r, end_c] < 1)
-                check_valid = False;
-            end
-
-            while check_valid ~= True
+            % User's turn
+            valid_move = false;
+            while ~valid_move
                 move = user_move();
-                check_valid = is_valid_move(board, move);
-                if ~check_valid
+                valid_move = is_valid_move(board, move);
+                if ~valid_move
                     disp('Invalid move. Please try again.');
                 end
-            end
-
-             % Determining the coordinates of the move (remember, the move is
-             % happening via a 1x4 array)
-
-            start_row = move(1);
-            start_column = move(2);
-            end_row = move(3);
-            end_column = move(4);
-
-            % "Initializing a "new board"
-
-            new_board = board;
-
-            new_board(end_row, end_column) = new_board(start_row, start_column);
-
-            new_board(start_row, start_column) = 0;
-
-            % Special case 1: Capture Move --> Need to remove the captured piece
-            % from the board 
-
-            if abs(start_row - end_row) == 2 && abs(start_column - end_column) == 2
-                captured_piece_r = (start_row + end_row) / 2 ;
-                captured_piece_c = (start_col + end_col) / 2;
-                new_board(capture_piece_r, captured_piece_c) = 0;
-            end
-
-            % Special case 2: the piece reached the opposite end of the board -->
-            % Becomes a King
-
-            if new_board(end_row, end_column) == 1 && end_row == 8
-                new_board(end_row, end_column) = 2;
-            elseif new_board(end_row, end_column) == -1 && end_row == 1
-                new_board(end_row, end_column) = -2;
             end
         else
             % Computer's turn
             move = generate_computer_move(board);
             disp(['Computer moves: ', num2str(move)]);
-
-            % "Initializing a "new board"
-
-            new_board = board;
-
-            new_board(end_row, end_column) = new_board(start_row, start_column);
-
-            new_board(start_row, start_column) = 0;
-
-            % Special case 1: Capture Move --> Need to remove the captured piece
-            % from the board 
-
-            if abs(start_row - end_row) == 2 && abs(start_column - end_column) == 2
-                captured_piece_r = (start_row + end_row) / 2 ;
-                captured_piece_c = (start_col + end_col) / 2;
-                new_board(capture_piece_r, captured_piece_c) = 0;
-            end
-
-            % Special case 2: the piece reached the opposite end of the board -->
-            % Becomes a King
-
-            if new_board(end_row, end_column) == 1 && end_row == 8
-                new_board(end_row, end_column) = 2;
-            elseif new_board(end_row, end_column) == -1 && end_row == 1
-                new_board(end_row, end_column) = -2;
-            end
-
         end
         board = make_move(board, move);
-        
-        f sum(sum(board == 1)) == 0 || sum(sum(board == -1)) == 0
-        game_over = true;
-        return;
-
-    % Determine if there are any legal moves left for EITHER player (user
-    % AND computer)
-
-    player_pieces = board(board ~= 0);
-    if sum(player_pieces > 0) > 0
-
-        % For the First Player 
-
-        for row = 1:8
-            for column = 1:8 
-                if board(row, column) == 1 || board(row, column) == 2
-                    for delta_row = [-1, 1]
-                        for delta_column = [-1, -1]
-                            end_row = row + delta_row;
-                            end_column = column + delta_column;
-                            if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
-                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_column/2) < 0
-                                    game_over = false;
-                                    return;
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    else
-
-        % Now for the other player (the computer)
-
-        for row = 1:8
-            for column = 1:8
-                if board(row, column) == -1 || board(row, column) == -2
-                    for delta_row = [-1, 1]
-                        for delta_column = [-1, 1]
-                            end_row = row + delta_row;
-                            end_column = column + delta_column;
-
-                            if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
-                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_col/2) > 0
-                                    game_over = false;
-                                    return;
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    % IF NO LEGAL MOVES ARE AVAILABLE --> GAME OVER 
-    
-    game_over = true;
 
         % Check if the game is over
         game_over = is_game_over(board);
@@ -180,7 +53,91 @@ function Checkers()
             % Switch the player
             player = -player;
         end
+    end
 end
+
+function move = user_move()
+    % Prompt the user to input a move
+    prompt = 'Enter your move in standard checkers notation (e.g. "3-4 4-5"): ';
+    move_str = input(prompt, 's');
+
+    % Convert the move string to a 1x4 array
+    move_cells = strsplit(move_str, ' ');
+    move = zeros(1, 4);
+    for i = 1:4
+        move(i) = str2double(move_cells{i});
+    end
+end
+
+
+function check_valid = is_move_valid(board, move)
+
+    start_r = move(1);
+    start_c = move(2);
+    end_r = move(3);
+    end_c = move(4);
+
+    % Make sure the move is within the 8x8 array 
+
+    if any([start_r, start_c, end_r, end_c] > 8) || any([start_r, start_c, end_r, end_c] < 1)
+        check_valid = false;
+        return;
+    end
+
+    % Make sure that the start position is not empty (i.e. Can't move a "0"
+    % space on the board 
+
+    if board(start_r, start_c) == 0
+        check_valid = false;
+        return;
+    end
+
+    % Check that the end position of the move IS empty 
+
+    if board(end_r, end_c) ~= 0
+        check_valid = false;
+        return;
+    end
+
+    % The move cannot be more than 2 spaces away
+
+    if abs(start_r - end_r) > 2
+        check_valid = false;
+        return;
+    end
+
+    % The move needs to be going towards the right direction (meaning that
+    % the move from the user's side can only go up towards the opposite end
+    % of the board)
+
+    if board(start_r, start_c) == 1 && end_r <= start_r
+        check_valid = false;
+        return;
+    end
+
+    if board(start_r, start_c) == -1 && end_row >- start_row
+        check_valid = false;
+        return;
+    end 
+
+    % Two Types of Moves: (1) Single Diagnol Move or (2) Capture Piece Move
+
+    if abs(start_row - end_row) == 1 && abs(start_col - end_col) == 1 % Single Diagnol Move
+        check_valid = true;
+
+    elseif abs(start_row - end_row) == 2 && abs(start_col - end_col) == 2 % Capture Piece Move
+        captured_piece_row = (start_row + end_row) / 2;
+        captured_piece_col = (start_col + end_col) / 2;
+        if board(captured_piece_row, captured_piece_col) == -sign(board(start_row, start_col))
+            check_valid = true;
+        else
+            check_valid = false;
+        end
+    else
+        check_valid = false;
+    end
+end
+
 
 
 

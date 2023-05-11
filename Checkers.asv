@@ -1,15 +1,27 @@
 function Checkers()
     % Initialize the game board
-    board = zeros(8, 8);
-    board(1:3:8, 2:2:8) = 1;
-    board(2:2:8, 1:3:8) = -1;
+    board = zeros(8, 8); % create an 8x8 matrix filled with zeros
+
+% set up the black pieces in the top three rows
+    for row = 1:3
+        for col = mod(row, 2)+1:2:8
+            board(row, col) = 1;
+        end
+    end
+
+% set up the white pieces in the bottom three rows
+    for row = 6:8
+        for col = mod(row, 2)+1:2:8
+            board(row, col) = -1;
+        end
+    end
 
     % Initialize the game state
     player = 1;
     game_over = false;
 
     % Play the game
-    while game_over ~= True
+    while game_over ~= true
         % Display the board
         disp(board);
 
@@ -17,10 +29,10 @@ function Checkers()
         prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
         move_str = input(prompt, 's');
 
-        move_array_cells = strssplit(move_str, ' ');
+        move_array_cells = strsplit(move_str, ' ');
         player_move = zeros(1, 4);
         for i = 1:4
-            player_move(i) = str2double(move_array_cells{i});
+            player_move(i) = str2double(move_array_cells(i));
         end
     end
 
