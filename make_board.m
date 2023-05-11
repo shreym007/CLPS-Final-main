@@ -1,13 +1,17 @@
-% Initialize the board
-board = zeros(8, 8); % 0 represents an empty space
+board = zeros(8, 8); % create an 8x8 matrix filled with zeros
 
-% 1 represents a PLAYER ONE (ex. red piece), -1 represents a PLAYER 2 (ex.
-% black piece). The board is set up like a conventional checkers board 
+% set up the black pieces in the top three rows
+for row = 1:3
+    for col = mod(row, 2)+1:2:8
+        board(row, col) = 1;
+    end
+end
 
-% In our game, the user (a.k.a. us!) will be using the "1" pieces, while
-% the computer generated moves will be using the "-1" pieces. 
-
-board(1:3, 2:2:8) = 1;
-board(8:-1:6, 1:2:7) = -1;
+% set up the white pieces in the bottom three rows
+for row = 6:8
+    for col = mod(row, 2)+1:2:8
+        board(row, col) = -1;
+    end
+end
 
 disp(board);
