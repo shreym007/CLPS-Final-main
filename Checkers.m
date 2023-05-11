@@ -270,7 +270,7 @@ end
 % Function that moves pieces
 function move = user_move()
 
-    prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
+    prompt = 'Please enter your move in conventional checkers notation (ex. "3-4 4-5"): ';
     move_str = input(prompt, 's');
 
     move_array_cells = strsplit(move_str, ' ');
