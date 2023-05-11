@@ -9,7 +9,7 @@ function Checkers()
     game_over = false;
 
     % Play the game
-    while game_over ~= True
+    while game_over ~= true
         % Display the board
         disp(board);
 
@@ -17,10 +17,10 @@ function Checkers()
         prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
         move_str = input(prompt, 's');
 
-        move_array_cells = strssplit(move_str, ' ');
+        move_array_cells = strsplit(move_str, ' ');
         player_move = zeros(1, 4);
         for i = 1:4
-            player_move(i) = str2double(move_array_cells{i});
+            player_move(i) = str2double(move_array_cells(i));
         end
     end
 
