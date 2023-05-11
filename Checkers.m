@@ -30,23 +30,29 @@ disp(board);
         % Make the player's move
         if player == 1
 
+            move = user_move()
+
             % User's turn
-            valid_move = false;
+   %         valid_move = false;
             prompt = " ";
             valid_move = is_move_valid(board, move)
+            valid_move = false;
 
             while ~valid_move
                 move = user_move();
-                valid_move = is_valid_move(board, move);
+                valid_move = is_move_valid(board, move);
                 if ~valid_move
                     disp('Invalid move. Please try again.');
                 end
             end
+            
+            game_over = check_done(board)
 
         else
             % Computer's turn
             move = computer_move(board);
             disp(['Computer moves: ', num2str(move)]);
+            game_over = check_done(board)
         end
         board = make_move(board, move);
 
@@ -61,18 +67,7 @@ disp(board);
     end
 end
 
-function move = user_move()
-    % Prompt the user to input a move
-    prompt = 'Enter your move in standard checkers notation (e.g. "3-4 4-5"): ';
-    move_str = input(prompt, 's');
 
-    % Convert the move string to a 1x4 array
-    move_cells = strsplit(move_str, ' ');
-    move = zeros(1, 4);
-    for i = 1:4
-        move(i) = str2double(move_cells{i});
-    end
-end
 
 % Function that checks whether move is valid or not
 function valid_move = is_move_valid(board, move)
@@ -143,7 +138,7 @@ function valid_move = is_move_valid(board, move)
     end
 end
 
-% Function that Updates Board
+% Function that Generates random moves
 function computer_move = gen_comp(board)
 
     valid_moves = [];
@@ -273,16 +268,15 @@ function check_finished = check_done(board)
 end                          
              
 % Function that moves pieces
-prompt = " "; %#ok<SYNER> 
-function player_move = player_move()
+function move = user_move()
 
     prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
     move_str = input(prompt, 's');
 
-    move_array_cells = strssplit(move_str, ' ');
-    player_move = zeros(1, 4);
+    move_array_cells = strsplit(move_str, ' ');
+    move = zeros(1, 4);
     for i = 1:4
-        player_move(i) = str2double(move_array_cells{i});
+        move(i) = str2double(move_array_cells{i});
     end
 end
 
