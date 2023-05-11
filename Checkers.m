@@ -16,7 +16,6 @@ for row = 6:8
     end
 end
 
-disp(board);
 
     % Initialize the game state
     player = 1;
@@ -30,12 +29,12 @@ disp(board);
         % Make the player's move
         if player == 1
 
-            move = user_move()
+            move = user_move();
 
             % User's turn
    %         valid_move = false;
             prompt = " ";
-            valid_move = is_move_valid(board, move)
+            valid_move = is_move_valid(board, move);
             valid_move = false;
 
             while ~valid_move
@@ -102,7 +101,7 @@ function valid_move = is_move_valid(board, move)
     % The move cannot be more than 2 spaces away
 
     if abs(start_r - end_r) > 2
-        valid_move = false;
+        valid_move = false; 
         return;
     end
 
@@ -278,6 +277,7 @@ function move = user_move()
     for i = 1:4
         move(i) = str2double(move_array_cells{i});
     end
+    disp(move)
 end
 
 
