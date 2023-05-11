@@ -69,7 +69,7 @@ function move = user_move()
     end
 end
 
-
+% Function that checks whether move is valid or not
 function check_valid = is_move_valid(board, move)
 
     start_r = move(1);
@@ -138,6 +138,147 @@ function check_valid = is_move_valid(board, move)
     end
 end
 
+% Function that Updates Board
+function computer_move = gen_comp(board)
 
+    valid_moves = [];
+    
+    for row = 1:8
+        for column = 1:8
+            if board(row, column) < 0
+                for delta_row = [-1, 1]
+                    for delta_column = [-1, 1]
+                        end_row = row + delta_row;
+                        end_column = column + delta_column;
+                        if end_row >- 1 && end_row <= 8 && end_column >- 1 && end_column <- 8 && board(end_row, end_column) == 0
+                            if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_column/2) > 0
+                                valid_moves = [valid_moves; [row, column, end_row, end_column]];
+                            end
+                        end
+                    end
+                end
+          
+            elseif board(row, column) == -2
+                for delta_row = [-1, 1]
+                    for delta_column = [-1, 1]
+                        for n = 1:7
+                            end_row = row + n*delta_row;
+                            end_column = column + n*delta_column;
+
+                            if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
+
+                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_col/2) > 0
+                                    valid_moves = [valid_moves; [row, column, end_row, end_column]];
+                                end
+
+                            elseif end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) < 0 
+                            
+                                if abs(delta_row) == 1 && abs(delta_col) == 1
+
+                                    if end_row + delta_row >= 1 && end_row + delta_row <= 8 && end_column + delta_column >= 1 && end_column + delta_column <= 8 && board(end_row + delta_row, end_column + delta_column) == 0
+                                        valid_moves = [valid_moves; [row, column, end_row + delta_row, end_column + delta_column]];
+                                    end
+                                end
+                                break;
+                            else
+                                break;
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        
+        number_valid_moves = size(valid_moves, 1);
+
+        if number_valid_moves == 0
+            move = [];
+
+        else
+            random_move_index = randi(number_valid_moves);
+            move = valid_moves(random_move_index, :);
+        end
+    end
+end
+
+% Function that checks if game is over or not
+function check_finished = check_done(board)
+
+    % Determine if all pieces of one color have been captured 
+
+    if sum(sum(board == 1)) == 0 || sum(sum(board == -1)) == 0
+        game_over = true;
+        return;
+    end
+
+    % Determine if there are any legal moves left for EITHER player (user
+    % AND computer)
+
+    player_pieces = board(board ~= 0);
+    if sum(player_pieces > 0) > 0
+
+        % For the First Player 
+
+        for row = 1:8
+            for column = 1:8 
+                if board(row, column) == 1 || board(row, column) == 2
+                    for delta_row = [-1, 1]
+                        for delta_column = [-1, -1]
+                            end_row = row + delta_row;
+                            end_column = column + delta_column;
+                            if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
+                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_column/2) < 0
+                                    game_over = false;
+                                    return;
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    else
+
+        % Now for the other player (the computer)
+
+        for row = 1:8
+            for column = 1:8
+                if board(row, column) == -1 || board(row, column) == -2
+                    for delta_row = [-1, 1]
+                        for delta_column = [-1, 1]
+                            end_row = row + delta_row;
+                            end_column = column + delta_column;
+
+                            if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
+                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_col/2) > 0
+                                    game_over = false;
+                                    return;
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    % IF NO LEGAL MOVES ARE AVAILABLE --> GAME OVER 
+    
+    game_over = true;
+end                          
+             
+% Function that moves pieces
+prompt = " "; %#ok<SYNER> 
+function player_move = player_move()
+
+    prompt = 'Please enter your move in conventional checkers notation (ex. "2-4"): ';
+    move_str = input(prompt, 's');
+
+    move_array_cells = strssplit(move_str, ' ');
+    player_move = zeros(1, 4);
+    for i = 1:4
+        player_move(i) = str2double(move_array_cells{i});
+    end
+end
 
 
