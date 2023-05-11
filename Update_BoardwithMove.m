@@ -36,6 +36,7 @@ function new_board = make_move(board, move)
     elseif new_board(end_row, end_column) == -1 && end_row == 1
         new_board(end_row, end_column) = -2;
     end
+    disp(new_board)
 end
 
 
