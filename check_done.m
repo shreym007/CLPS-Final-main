@@ -1,7 +1,7 @@
 % After each move, the code needs to analyze the current state of the board
 % and determine whether or not the game should still proceed 
 
-function check_finished = check_done(board)
+function game_over = check_done(board)
 
     % Determine if all pieces of one color have been captured 
 

@@ -42,20 +42,20 @@ end
             end
 
             
-          % board = make_move(board, move);
+           board = make_move(board, move);
           
 
 
         else
             % Computer's turn
-            move = computer_move(board);
+            move = gen_comp(board);
             disp(['Computer moves: ', num2str(move)]);
             game_over = check_done(board);
         end
         board = make_move(board, move);
 
         % Check if the game is over
-        game_over = is_game_over(board);
+        game_over = check_done(board);
         if game_over
             disp(['Game over! ', num2str(-player), ' wins!']);
         else

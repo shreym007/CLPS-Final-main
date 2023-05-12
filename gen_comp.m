@@ -1,7 +1,7 @@
 % This will be the function to program the way the computer produces a
 % random VALID move to go against the user input 
 
-function computer_move = gen_comp(board)
+function move = gen_comp(board)
 
     valid_moves = [];
     
