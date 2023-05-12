@@ -5,7 +5,6 @@ function new_board = make_move(board, move)
 
     % Determining the coordinates of the move (remember, the move is
     % happening via a 1x4 array)
-
     start_row = move(1);
     start_column = move(2);
     end_row = move(3);
@@ -16,7 +15,6 @@ function new_board = make_move(board, move)
     new_board = board;
 
     new_board(end_row, end_column) = new_board(start_row, start_column);
-
     new_board(start_row, start_column) = 0;
 
     % Special case 1: Capture Move --> Need to remove the captured piece

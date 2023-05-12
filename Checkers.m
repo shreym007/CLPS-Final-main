@@ -49,10 +49,13 @@ end
         else
             % Computer's turn
             move = gen_comp(board);
+            disp(move)
             disp(['Computer moves: ', num2str(move)]);
-            game_over = check_done(board);
+            new_board = make_move(board, move);
+            board = new_board;
+            game_over = check_done(board); %#ok<NASGU> 
         end
-        board = make_move(board, move);
+        %board = make_move(board, move);
 
         % Check if the game is over
         game_over = check_done(board);
@@ -62,17 +65,7 @@ end
             % Switch the player
             player = -player;
 
-            disp(board);
         end
     end
 end
-
-
-
-
-
-
-                       
-             
-
 

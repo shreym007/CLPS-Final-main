@@ -24,69 +24,48 @@ end
     % Play the game
     while ~game_over
         % Display the board
-        %disp(board + 1);
+        disp(board);
 
         % Make the player's move
         if player == 1
-            %disp(board + 2);
 
             move = user_move();
-            %disp(board + 3);
 
             % User's turn
-            prompt = " ";
-            valid_move = false;
+            valid_move = false; %#ok<NASGU> 
             valid_move = Check_Move_Validity(board, move);
-            disp(valid_move);
-            %disp(board + 4);
 
             while ~valid_move
                 disp('Invalid move. Please try again.');
-                %disp(board + 5);
                 move = user_move();
                 valid_move = Check_Move_Validity(board, move);
-                %disp(board + 6);
             end
-            %disp(board + 7);
+
             
-           new_board = make_move(board, move);
-           board = new_board;
-           disp(board);
+           board = make_move(board, move);
+          
 
-
-          %  board = make_move(board, move);
-            disp(board);
-            %game_over = check_done(board, move);
-            %disp(board);
 
         else
             % Computer's turn
-            move = computer_move(board);
+            move = gen_comp(board);
+            %disp(move)
             disp(['Computer moves: ', num2str(move)]);
-            game_over = check_done(board)
+            new_board = make_move(board, move);
+            board = new_board;
+            game_over = check_done(board); %#ok<NASGU> 
         end
-        board = make_move(board, move);
+        %board = make_move(board, move);
 
         % Check if the game is over
-        game_over = is_game_over(board);
+        game_over = check_done(board);
         if game_over
             disp(['Game over! ', num2str(-player), ' wins!']);
         else
             % Switch the player
             player = -player;
 
-            disp(board);
         end
     end
-    disp(board);
 end
-
-
-
-
-
-
-                       
-             
-
 
