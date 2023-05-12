@@ -8,12 +8,12 @@ function move = gen_comp(board)
     for row = 1:8
         for column = 1:8
             if board(row, column) < 0
-                for delta_row = [-1, 1]
-                    for delta_column = [-1, 1]
-                        end_row = row + delta_row;
-                        end_column = column + delta_column;
+                for changed_row = [-1, 1]
+                    for changed_column = [-1, 1]
+                        end_row = row + changed_row;
+                        end_column = column + changed_column;
                         if end_row >- 1 && end_row <= 8 && end_column >- 1 && end_column <- 8 && board(end_row, end_column) == 0
-                            if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_column/2) > 0
+                            if abs(changed_row) == 1 || board(row + changed_row/2, column + changed_column/2) > 0
                                 valid_moves = [valid_moves; [row, column, end_row, end_column]];
                             end
                         end
@@ -21,24 +21,24 @@ function move = gen_comp(board)
                 end
           
             elseif board(row, column) == -2
-                for delta_row = [-1, 1]
-                    for delta_column = [-1, 1]
+                for changed_row = [-1, 1]
+                    for changed_column = [-1, 1]
                         for n = 1:7
-                            end_row = row + n*delta_row;
-                            end_column = column + n*delta_column;
+                            end_row = row + n*changed_row;
+                            end_column = column + n*changed_column;
 
                             if end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) == 0
 
-                                if abs(delta_row) == 1 || board(row + delta_row/2, column + delta_col/2) > 0
+                                if abs(changed_row) == 1 || board(row + changed_row/2, column + delta_col/2) > 0
                                     valid_moves = [valid_moves; [row, column, end_row, end_column]];
                                 end
 
                             elseif end_row >= 1 && end_row <= 8 && end_column >= 1 && end_column <= 8 && board(end_row, end_column) < 0 
                             
-                                if abs(delta_row) == 1 && abs(delta_col) == 1
+                                if abs(changed_row) == 1 && abs(delta_col) == 1
 
-                                    if end_row + delta_row >= 1 && end_row + delta_row <= 8 && end_column + delta_column >= 1 && end_column + delta_column <= 8 && board(end_row + delta_row, end_column + delta_column) == 0
-                                        valid_moves = [valid_moves; [row, column, end_row + delta_row, end_column + delta_column]];
+                                    if end_row + changed_row >= 1 && end_row + changed_row <= 8 && end_column + changed_column >= 1 && end_column + changed_column <= 8 && board(end_row + changed_row, end_column + changed_column) == 0
+                                        valid_moves = [valid_moves; [row, column, end_row + changed_row, end_column + changed_column]];
                                     end
                                 end
                                 break;
